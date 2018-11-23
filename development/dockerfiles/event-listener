@@ -2,21 +2,14 @@ FROM node:10
 
 WORKDIR /app
 
-# Copy wait-for.sh to wait for local blockchain to start
+# Copy wait-for.sh to allow waiting for services to start
 COPY ./development/scripts/wait-for.sh /usr/local/bin
 
-RUN npm i lerna -g --loglevel notice
+# Copy all packages
+COPY ./ ./
 
-COPY package*.json ./
-COPY lerna.json ./
-COPY ./origin-js ./origin-js
-COPY ./origin-contracts ./origin-contracts
-COPY ./origin-discovery ./origin-discovery
-COPY ./scripts ./scripts
-RUN lerna bootstrap --ci -- --loglevel notice --unsafe-perm
-# Build origin-js
-RUN lerna run build --scope origin -- --progress
+RUN npm i -g lerna
+RUN lerna bootstrap --ci -- --loglevel notice -- --unsafe-perm
 
-WORKDIR /app/origin-discovery
-
-CMD npm run migrate && npm run start:listener
+CMD npm run migrate --prefix origin-discovery \
+	&& npm run start:listener --prefix origin-discovery

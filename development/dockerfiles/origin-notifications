@@ -2,11 +2,14 @@ FROM node:10
 
 WORKDIR /app
 
-# Copy wait-for.sh to wait for postgresql to start
+# Copy wait-for.sh to allow waiting for services to start
 COPY ./development/scripts/wait-for.sh /usr/local/bin
 
-COPY ./origin-notifications /app
-RUN npm ci --loglevel notice
+# Copy all packages
+COPY ./ ./
 
-CMD npm run migrate && npm run start
+RUN npm i -g lerna
+RUN lerna bootstrap --ci -- --loglevel notice -- --unsafe-perm
 
+CMD npm run migrate --prefix origin-notifications && \
+	npm run start --prefix origin-notifications

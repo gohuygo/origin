@@ -2,10 +2,13 @@ FROM node:10
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY ./origin-messaging/package*.json /app/
+# Copy wait-for.sh to allow waiting for services to start
+COPY ./development/scripts/wait-for.sh /usr/local/bin
 
-# Install dependencies
-RUN npm ci --loglevel notice
+# Copy all packages
+COPY ./ ./
 
-CMD npm run dev
+RUN npm i -g lerna
+RUN lerna bootstrap --ci -- --loglevel notice -- --unsafe-perm
+
+CMD npm run start --prefix origin-messaging

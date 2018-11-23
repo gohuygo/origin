@@ -2,14 +2,13 @@ FROM node:10
 
 WORKDIR /app
 
-COPY package*.json /app/
-COPY lerna.json .
-COPY ./origin-js /app/origin-js
-COPY ./origin-contracts /app/origin-contracts
-COPY ./origin-discovery /app/origin-discovery
-COPY ./scripts ./scripts
-RUN npm ci --loglevel notice --unsafe-perm
+# Copy wait-for.sh to allow waiting for services to start
+COPY ./development/scripts/wait-for.sh /usr/local/bin
 
-WORKDIR /app/origin-discovery
+# Copy all packages
+COPY ./ ./
 
-CMD npm run start:discovery
+RUN npm i -g lerna
+RUN lerna bootstrap --ci -- --loglevel notice -- --unsafe-perm
+
+CMD npm run start:discovery --prefix origin-discovery

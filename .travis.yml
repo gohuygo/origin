@@ -100,3 +100,9 @@ matrix:
         - npm install --ignore-scripts
       script:
         - lerna run lint --scope origin-notifications --stream
+
+    - name: "integration tests"
+      dist: trusty
+      script:
+        - docker-compose -f docker-compose.travis.yml up
+

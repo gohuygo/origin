@@ -9,6 +9,6 @@ COPY ./development/scripts/wait-for.sh /usr/local/bin
 COPY ./ ./
 
 RUN npm i -g lerna
-RUN lerna bootstrap --ci -- --loglevel notice -- --unsafe-perm
+RUN lerna bootstrap --ci -- --loglevel notice --unsafe-perm
 
 CMD npm run start --prefix origin-js

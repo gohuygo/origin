@@ -56,6 +56,7 @@ services:
       # written to the build files
       - ./origin-contracts/build:/app/origin-contracts/build
       - ./origin-js/scripts:/app/origin-js/scripts
+    command: npm run start --prefix origin-js
 
   origin-discovery:
     container_name: origin-discovery
@@ -75,9 +76,7 @@ services:
       - elasticsearch
     ports:
       - "4000:4000"
-    command:
-      >
-      /bin/bash -c "npm run start:discovery --prefix origin-discovery"
+    command: npm run start:discovery --prefix origin-discovery
 
   event-listener:
     container_name: event-listener
@@ -111,13 +110,11 @@ services:
     ports:
       - "9012:9012"
     volumes:
-      - ./origin-messaging/src:/app/src
-      - ./development/.ipfs:/app/ipfs
+      - ./origin-messaging/src:/app/origin-messaging/src
+      - ./development/.ipfs:/app/origin-messaging/ipfs
     environment:
       - MESSAGING_NAMESPACE=dev
-    command:
-      >
-      /bin/bash -c "npm run start --prefix origin-messaging"
+    command: npm run start --prefix origin-messaging
 
   origin-bridge:
     container_name: origin-bridge
@@ -146,7 +143,7 @@ services:
       context: .
       dockerfile: development/dockerfiles/origin
     volumes:
-      - ./origin-notifications/src:/app/src
+      - ./origin-notifications/src:/app/origin-notifications/src
       - ./development/envfiles/origin-notifications.env:/app/.env
     depends_on:
       - postgres
@@ -187,13 +184,13 @@ services:
       - origin-bridge
       - origin-notifications
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     command:
       # Waits for origin-messaging to start then uses a script to read the
       # origin-messaging IPFS peer id and write the configuration key/pair to
       # the .env file.
       >
-      /bin/bash -c "wait-for.sh -t 0 -q origin-messaging:9012 &&
+      /bin/bash -c "wait-for.sh -t 0 origin-messaging:9012 &&
       . set-ipfs-swarm.sh /ipfs/config &&
-      wait-for.sh -t 0 -q origin-js:8080 --
-      npm run start --prefix origin-dapp -- --host 0.0.0.0"
+      wait-for.sh -t 0 origin-js:8080 --
+      npm run start:development --prefix origin-dapp -- --host 0.0.0.0"

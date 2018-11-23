@@ -2,8 +2,8 @@ FROM node:10
 
 WORKDIR /app
 
-# Copy wait-for.sh to allow waiting for services to start
-COPY ./development/scripts/wait-for.sh /usr/local/bin
+# Copy utility scripts
+COPY ./development/scripts/* /usr/local/bin/
 
 # Copy all packages
 COPY ./ ./

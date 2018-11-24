@@ -21,6 +21,10 @@ steps:
   args:
     - run gcr.io/$PROJECT_ID/origin:latest
     - npm run test --prefix origin-notifications
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - run gcr.io/$PROJECT_ID/origin:latest
+    - npm run test --prefix ipfs-proxy
 timeout: "3600s"
 options:
   machineType: 'N1_HIGHCPU_32'

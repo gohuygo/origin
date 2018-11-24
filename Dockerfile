@@ -10,3 +10,5 @@ COPY ./ ./
 
 RUN npm i -g lerna
 RUN lerna bootstrap --ci -- --loglevel notice --unsafe-perm
+# Build origin-js for event-listener
+RUN npm run build --prefix origin-js

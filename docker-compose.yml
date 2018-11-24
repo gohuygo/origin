@@ -24,12 +24,27 @@ services:
     networks:
       - default
 
+  # NOTE/TODO: This container is only responsible for running ganache and IPFS,
+  # this functionality should be moved to dedicated containers
+  origin-js:
+    container_name: origin-js
+    image: origin
+    build:
+      context: .
+    ports:
+      - "8545:8545"  # Ganache
+    volumes:
+      # Addresses for deployment of contracts to local blockchain will get
+      # written to the build files
+      - ./origin-contracts/build:/app/origin-contracts/build
+      - ./origin-js/scripts:/app/origin-js/scripts
+    command: npm run start --prefix origin-js
+
   ipfs-proxy:
     container_name: ipfs-proxy
     image: origin
     build:
       context: .
-      dockerfile: development/dockerfiles/origin
     ports:
       - "9999:9999"
     environment:
@@ -41,29 +56,11 @@ services:
       >
       /bin/bash -c "npm run start --prefix ipfs-proxy"
 
-  # NOTE/TODO: This container is only responsible for running ganache and IPFS,
-  # this functionality should be moved to dedicated containers
-  origin-js:
-    container_name: origin-js
-    image: origin
-    build:
-      context: .
-      dockerfile: development/dockerfiles/origin
-    ports:
-      - "8545:8545"  # Ganache
-    volumes:
-      # Addresses for deployment of contracts to local blockchain will get
-      # written to the build files
-      - ./origin-contracts/build:/app/origin-contracts/build
-      - ./origin-js/scripts:/app/origin-js/scripts
-    command: npm run start --prefix origin-js
-
   origin-discovery:
     container_name: origin-discovery
     image: origin
     build:
       context: .
-      dockerfile: development/dockerfiles/origin
     volumes:
       - ./origin-js/src:/app/origin-js/src
       - ./origin-discovery/src:/app/origin-discovery/src
@@ -83,7 +80,6 @@ services:
     image: origin
     build:
       context: .
-      dockerfile: development/dockerfiles/origin
     volumes:
       - ./origin-contracts/build:/app/origin-contracts/build
       - ./origin-js/src:/app/origin-js/src
@@ -106,7 +102,6 @@ services:
     image: origin
     build:
       context: .
-      dockerfile: development/dockerfiles/origin
     ports:
       - "9012:9012"
     volumes:
@@ -141,7 +136,6 @@ services:
     image: origin
     build:
       context: .
-      dockerfile: development/dockerfiles/origin
     volumes:
       - ./origin-notifications/src:/app/origin-notifications/src
       - ./development/envfiles/origin-notifications.env:/app/.env
@@ -162,7 +156,6 @@ services:
     image: origin
     build:
       context: .
-      dockerfile: development/dockerfiles/origin
     volumes:
       # Include origin-contracts build files so the DApp has access to the
       # address of the contracts on the local blockchain

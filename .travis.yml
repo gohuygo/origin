@@ -123,3 +123,9 @@ matrix:
         - npm run test --prefix origin-token-transfer/server
         - npm run lint --prefix origin-token-transfer/client
         - npm run test --prefix origin-token-transfer/client
+
+    - name: "integration tests"
+      dist: trusty
+      script:
+        - docker-compose up -d
+        - ./development/scripts/wait-for.sh -t 0 localhost:3000 -- echo "DApp running"

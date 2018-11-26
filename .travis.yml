@@ -36,4 +36,4 @@ jobs:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_31229e331bfe_key -iv $encrypted_31229e331bfe_iv
-  -in travis-sa.json.enc -out travis-sa.json -d
+  -in ./deployment/travis-sa.json.enc -out ./deployment/travis-sa.json -d

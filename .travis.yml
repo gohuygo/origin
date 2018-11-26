@@ -11,18 +11,25 @@ jobs:
         - docker tag origin-ci-build gcr.io/origin-214503/origin-ci/origin-ci-build:latest
         - docker push gcr.io/origin-214503/origin-ci/origin-ci-build:latest
     - stage: ipfs-proxy tests
+      language: node_js
       script: docker run --rm origin-ci-build npm run test --prefix origin-ipfs
     - stage: origin-contracts tests
+      language: node_js
       script: docker run --rm origin-ci-build npm run test --prefix origin-contracts
     - stage: origin-dapp tests
+      language: node_js
       script: docker run --rm origin-ci-build npm run test --prefix origin-dapp
     - stage: origin-discovery tests
+      language: node_js
       script: docker run --rm origin-ci-build npm run test --prefix origin-discovery
     - stage: origin-messaging tests
+      language: node_js
       script: docker run --rm origin-ci-build npm run test --prefix origin-messaging
     - stage: origin-notifications tests
+      language: node_js
       script: docker run --rm origin-ci-build npm run test --prefix origin-notifications
     - stage: origin-token-transfer tests
+      language: node_js
       script:
         - docker run --rm origin-ci-build npm run test --prefix origin-token-transfer/client
         - docker run --rm origin-ci-build npm run test --prefix origin-token-transfer/server

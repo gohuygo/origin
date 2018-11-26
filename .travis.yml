@@ -5,10 +5,9 @@ jobs:
   include:
     - stage: build docker image
       script:
-        - docker login -u _json_key -p $(cat ./deployment/travis-sa.json) https://gcr.io
-        - docker build -t origin-ci-build .
+        - docker login -u _json_key -p "$(cat ./deployment/travis-sa.json)" https://gcr.io
+        - docker build -t gcr.io/origin-214503/origin-ci/origin-ci-build:latest .
         - docker images
-        - docker tag origin-ci-build gcr.io/origin-214503/origin-ci/origin-ci-build:latest
         - docker push gcr.io/origin-214503/origin-ci/origin-ci-build:latest
     - stage: ipfs-proxy tests
       language: node_js

@@ -1,6 +1,9 @@
-FROM node:10
+FROM node:10-alpine
 
 WORKDIR /app
+
+# Make git available for npm
+RUN apk --no-cache add git
 
 # Copy utility scripts
 COPY ./development/scripts/* /usr/local/bin/

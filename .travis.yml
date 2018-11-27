@@ -1,7 +1,6 @@
 git:
   depth: 1
 
-
 cache:
   directories:
     - $HOME/docker
@@ -14,6 +13,7 @@ before_cache:
 jobs:
   include:
     - stage: build docker image
+      language: minimal
       script:
         - docker build -t origin .
         - docker images
@@ -42,6 +42,4 @@ jobs:
         - docker run --rm origin npm run test --prefix origin-token-transfer/server
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_31229e331bfe_key -iv $encrypted_31229e331bfe_iv
-  -in ./deployment/travis-sa.json.enc -out ./deployment/travis-sa.json -d
-- if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi

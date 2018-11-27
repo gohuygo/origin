@@ -1,9 +1,6 @@
-FROM node:10-alpine
+FROM node:10
 
 WORKDIR /app
-
-# Make git available for npm
-RUN apk --no-cache add git
 
 # Copy utility scripts
 COPY ./development/scripts/* /usr/local/bin/
@@ -28,6 +25,7 @@ COPY ./lerna.json ./
 
 # Install all dependencies
 RUN lerna bootstrap \
+	--hoist \
 	--ci \
 	--scope ipfs-proxy \
 	--scope origin-contracts \

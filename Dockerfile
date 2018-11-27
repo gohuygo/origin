@@ -26,7 +26,6 @@ COPY ./lerna.json ./
 # Install all dependencies
 RUN lerna bootstrap \
 	--hoist \
-	--ci \
 	--scope ipfs-proxy \
 	--scope origin-contracts \
 	--scope origin-dapp \

@@ -1,39 +1,47 @@
 git:
   depth: 1
 
+
+cache:
+  directories:
+    - $HOME/docker
+
+before_cache:
+  - >
+    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+
 jobs:
   include:
     - stage: build docker image
       script:
-        - docker login -u _json_key -p "$(cat ./deployment/travis-sa.json)" https://gcr.io
         - docker build -t origin .
-        - docker tag origin gcr.io/origin-214503/origin-ci/origin-ci-build:latest
         - docker images
-        - docker push gcr.io/origin-214503/origin-ci/origin-ci-build:latest
     - stage: ipfs-proxy tests
       language: node_js
-      script: docker run --rm origin-ci-build npm run test --prefix origin-ipfs
+      script: docker run --rm origin npm run test --prefix origin-ipfs
     - stage: origin-contracts tests
       language: node_js
-      script: docker run --rm origin-ci-build npm run test --prefix origin-contracts
+      script: docker run --rm origin npm run test --prefix origin-contracts
     - stage: origin-dapp tests
       language: node_js
-      script: docker run --rm origin-ci-build npm run test --prefix origin-dapp
+      script: docker run --rm origin npm run test --prefix origin-dapp
     - stage: origin-discovery tests
       language: node_js
-      script: docker run --rm origin-ci-build npm run test --prefix origin-discovery
+      script: docker run --rm origin npm run test --prefix origin-discovery
     - stage: origin-messaging tests
       language: node_js
-      script: docker run --rm origin-ci-build npm run test --prefix origin-messaging
+      script: docker run --rm origin npm run test --prefix origin-messaging
     - stage: origin-notifications tests
       language: node_js
-      script: docker run --rm origin-ci-build npm run test --prefix origin-notifications
+      script: docker run --rm origin npm run test --prefix origin-notifications
     - stage: origin-token-transfer tests
       language: node_js
       script:
-        - docker run --rm origin-ci-build npm run test --prefix origin-token-transfer/client
-        - docker run --rm origin-ci-build npm run test --prefix origin-token-transfer/server
+        - docker run --rm origin npm run test --prefix origin-token-transfer/client
+        - docker run --rm origin npm run test --prefix origin-token-transfer/server
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_31229e331bfe_key -iv $encrypted_31229e331bfe_iv
   -in ./deployment/travis-sa.json.enc -out ./deployment/travis-sa.json -d
+- if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi

@@ -12,7 +12,7 @@ before_cache:
 
 jobs:
   include:
-    - stage: tests
+    - stage: unit tests
       language: minimal
       script:
         - docker build -t origin .

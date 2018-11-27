@@ -17,15 +17,15 @@ jobs:
       script:
         - docker build -t origin .
         - docker images
-      script: docker run --rm origin npm run test --prefix origin-ipfs
-      script: docker run --rm origin npm run test --prefix origin-contracts
-      script: docker run --rm origin npm run test --prefix origin-dapp
-      script: docker run --rm origin npm run test --prefix origin-discovery
-      script: docker run --rm origin npm run test --prefix origin-messaging
-      script: docker run --rm origin npm run test --prefix origin-notifications
+      script: docker run origin npm run test --prefix origin-ipfs
+      script: docker run origin npm run test --prefix origin-contracts
+      script: docker run origin npm run test --prefix origin-dapp
+      script: docker run origin npm run test --prefix origin-discovery
+      script: docker run origin npm run test --prefix origin-messaging
+      script: docker run origin npm run test --prefix origin-notifications
       script:
-        - docker run --rm origin npm run test --prefix origin-token-transfer/client
-        - docker run --rm origin npm run test --prefix origin-token-transfer/server
+        - docker run origin npm run test --prefix origin-token-transfer/client
+        - docker run origin npm run test --prefix origin-token-transfer/server
 
 before_install:
   - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi

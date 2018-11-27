@@ -17,13 +17,12 @@ jobs:
       script:
         - docker build -t origin .
         - docker images
-      script: docker run origin npm run test --prefix origin-ipfs
-      script: docker run origin npm run test --prefix origin-contracts
-      script: docker run origin npm run test --prefix origin-dapp
-      script: docker run origin npm run test --prefix origin-discovery
-      script: docker run origin npm run test --prefix origin-messaging
-      script: docker run origin npm run test --prefix origin-notifications
-      script:
+        - docker run origin npm run test --prefix ipfs-proxy
+        - docker run origin npm run test --prefix origin-contracts
+        - docker run origin npm run test --prefix origin-dapp
+        - docker run origin npm run test --prefix origin-discovery
+        - docker run origin npm run test --prefix origin-messaging
+        - docker run origin npm run test --prefix origin-notifications
         - docker run origin npm run test --prefix origin-token-transfer/client
         - docker run origin npm run test --prefix origin-token-transfer/server
 

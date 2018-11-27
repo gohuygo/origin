@@ -110,6 +110,7 @@ secrets-prod.yaml
 ####################
 /origin-messaging/ipfs
 /origin-messaging/odb
+/origin-messaging/dist
 
 # origin-messaging #
 #############

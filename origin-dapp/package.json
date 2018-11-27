@@ -82,7 +82,7 @@
     "format": "npx prettier-eslint --write 'src/**/*.js''",
     "lint": "eslint 'src/**/*.js' --rulesdir ../",
     "translations": "node translations/scripts/processTranslatedMessages.js",
-    "test": "echo \"No tests defined \""
+    "test": "npm run lint && echo \"No tests defined \""
   },
   "babel": {
     "sourceType": "unambiguous",

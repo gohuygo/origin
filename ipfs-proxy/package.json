@@ -8,7 +8,7 @@
     "start": "per-env",
     "start:development": "nodemon src/app.js",
     "start:production": "node src/app.js",
-    "test": "mocha --timeout=10000",
+    "test": "npm run lint && mocha --timeout=10000",
     "test:load": "node load.js"
   },
   "repository": {

@@ -12,7 +12,7 @@
     "lint": "eslint 'src/**/*.js' --rulesdir ../",
     "start": "node scripts/serve.js serve",
     "start:no-ganache": "node scripts/serve.js no-ganache",
-    "test": "node scripts/test.js",
+    "test": "npm run lint && node scripts/test.js",
     "test:js": "node scripts/test-js.js",
     "test:jsw": "node scripts/test-js.js --watch"
   },

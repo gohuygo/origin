@@ -51,6 +51,6 @@
     "start:listener:production": "node src/listener/listener.js",
     "start:discovery:development": "nodemon src/apollo/app.js",
     "start:discovery:production": "node src/apollo/app.js",
-    "test": "mocha --timeout 10000 --exit"
+    "test": "npm run lint && mocha --timeout 10000 --exit"
   }
 }

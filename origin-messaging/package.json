@@ -14,7 +14,7 @@
     "prestart:production": "npm run build",
     "start:production": "node dist/index.js",
     "lint": "eslint '**/*.js' --rulesdir ../",
-    "test": "echo \"Warning: no tests specified\""
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",

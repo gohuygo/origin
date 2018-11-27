@@ -47,4 +47,4 @@ COPY ./ ./
 RUN npm run build --prefix origin-contracts
 
 # Build origin-js for event-listener
-RUN npm run build --prefix originjs
+RUN npm run build --prefix origin-js

@@ -1,5 +1,5 @@
 git:
-  depth: 1
+  depth: 3
 
 cache:
   directories:
@@ -12,31 +12,17 @@ before_cache:
 
 jobs:
   include:
-    - stage: build docker image
+    - stage: tests
       language: minimal
       script:
         - docker build -t origin .
         - docker images
-    - stage: ipfs-proxy tests
-      language: node_js
       script: docker run --rm origin npm run test --prefix origin-ipfs
-    - stage: origin-contracts tests
-      language: node_js
       script: docker run --rm origin npm run test --prefix origin-contracts
-    - stage: origin-dapp tests
-      language: node_js
       script: docker run --rm origin npm run test --prefix origin-dapp
-    - stage: origin-discovery tests
-      language: node_js
       script: docker run --rm origin npm run test --prefix origin-discovery
-    - stage: origin-messaging tests
-      language: node_js
       script: docker run --rm origin npm run test --prefix origin-messaging
-    - stage: origin-notifications tests
-      language: node_js
       script: docker run --rm origin npm run test --prefix origin-notifications
-    - stage: origin-token-transfer tests
-      language: node_js
       script:
         - docker run --rm origin npm run test --prefix origin-token-transfer/client
         - docker run --rm origin npm run test --prefix origin-token-transfer/server

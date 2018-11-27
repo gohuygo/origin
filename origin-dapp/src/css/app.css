@@ -1406,6 +1406,10 @@ textarea:-moz-ui-invalid {
   width: 196px;
 }
 
+.btn.margin-top {
+  margin-top: 18px;
+}
+
 .btn-primary:hover {
   background-color: var(--dark-clear-blue);
   color: white;
@@ -4910,6 +4914,7 @@ sup {
 }
 
 .publish.modal img,
+.mobile-publish.modal img,
 .unload.modal img {
   height: auto;
   width: auto;

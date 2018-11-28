@@ -9,16 +9,30 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-standard": "^4.0.0",
-    "lerna": "^3.4.3"
+    "lerna": "^3.4.3",
+    "yarn": "^1.12.3"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build --stream",
+    "build": "lerna run build",
     "clean": "git clean -fdX .",
     "start": "lerna run start --stream --parallel --scope origin --scope origin-dapp",
     "lint": "lerna run lint --stream",
     "format": "eslint **/**/*.js --quiet --fix",
-    "postinstall": "node ./scripts/postinstall.js",
     "test": "node ./scripts/test.js"
-  }
+  },
+  "workspaces": [
+    "ipfs-proxy",
+    "origin-contracts",
+    "origin-dapp",
+    "origin-discovery",
+    "origin-faucet",
+    "origin-js",
+    "origin-linking",
+    "origin-messaging",
+    "origin-mobile",
+    "origin-notifications",
+    "origin-token-transfer/client",
+    "origin-token-transfer/server"
+  ]
 }

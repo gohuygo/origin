@@ -7,11 +7,13 @@
     "origin-faucet",
     "origin-js",
     "origin-messaging",
-    "origin-linking",
     "origin-mobile",
+    "origin-linking",
     "origin-notifications",
     "origin-token-transfer/*",
     "experimental/*"
   ],
-  "version": "independent"
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true
 }
